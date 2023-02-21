@@ -1,6 +1,11 @@
 /* ARCHIVO: Constants.java
- * Clase con las onstantes usadas en los servicios de campos de transacciones
+ * Clase con las constantes usadas en los servicios de campos de transacciones
  *
+ * BANCO DE BOGOTA
+ * VICEPRESIDENCIA DE DESARROLLO
+ * GERENCIA DE DESARROLLO CANALES E INTEGRACION
+ * 
+ * ACTUALIZADO POR:         Juan Miguel Chaves
  * ULTIMA MODIFICACION:     Febrero 2 de 2023
  */
 package com.bancodebogota.fieldseparator;
@@ -10,26 +15,11 @@ package com.bancodebogota.fieldseparator;
  * @author Juan Miguel Chaves
  */
 public class Constants {
-
+    /**
+     * URL base de publicacion de servicios, donde se puede acceder a las
+     * funcionalidades
+     */
     static String STR_URL_CONFIG_SERVICE_BASE = "http://localhost:8085";
-    public static final String STR_PATRON_TOKEN_QP = FieldSeparatorTokens.props.getProperty("STR_PATRON_TOKEN_QP", "\\A(\\w{2})(\\w{4})(\\w{6})(\\w{35})(\\w{1})(\\w{8})\\Z");
-    public static final String STR_FIELD_NAME_SEPARATOR = FieldSeparatorTokens.props.getProperty("STR_FIELD_NAME_SEPARATOR", ".");
-    public static final String STR_PATRON_OTRO_TOKEN = FieldSeparatorTokens.props.getProperty("STR_PATRON_OTRO_TOKEN", "\\A[\\!][ ](\\w{2})(\\d{5})[ ](.*?)\\Z");
-    public static final String STR_FIELD_TOKEN_ROOT = FieldSeparatorTokens.props.getProperty("STR_FIELD_TOKEN_ROOT", "$1.");
-    public static final String STR_FIELD_TOKEN_PATTERN = FieldSeparatorTokens.props.getProperty("STR_FIELD_TOKEN_PATTERN", "(FIELD_(?:(?:126)|(?:057)))");
-    public static final String STR_LONGITUD_TOTAL = FieldSeparatorTokens.props.getProperty("STR_LONGITUD_TOTAL", "LONGITUD_TOTAL");
-    public static final String STR_STATUS_PROCESS = FieldSeparatorTokens.props.getProperty("STR_STATUS_PROCESS", "STATUS_PROCESS");
-    // 4915110100000000
-    public static final String STR_PATRON_INI_TOKEN = FieldSeparatorTokens.props.getProperty("STR_PATRON_INI_TOKEN", "\\A[\\&][ ](\\d{5})(\\d{5})(.+)\\Z");
-    public static final String STR_PATRON_TOKEN_QT = FieldSeparatorTokens.props.getProperty("STR_PATRON_TOKEN_QT", "\\A(\\w{6})(\\w{12})(\\d{12})(\\d[\\d ]{1})\\Z");
-    public static final String STR_STATUS_DESCRIPTION = FieldSeparatorTokens.props.getProperty("STR_STATUS_DESCRIPTION", "STATUS_DESCRIPTION");
-    public static final String STR_SUBFIELD = FieldSeparatorTokens.props.getProperty("STR_SUBFIELD", "SUBFIELD_");
-    public static final String STR_TOKEN_QT = FieldSeparatorTokens.props.getProperty("STR_TOKEN_QT", "QT");
-    public static final String STR_PATRON_TOKEN_BASE = FieldSeparatorTokens.props.getProperty("STR_PATRON_TOKEN_BASE", "\\A(.*?)\\Z");
-    public static final String STR_TOKENS_ENCONTRADOS = FieldSeparatorTokens.props.getProperty("STR_TOKENS_ENCONTRADOS", "TOKENS_ENCONTRADOS");
-    public static final String STR_TOKEN_QP = FieldSeparatorTokens.props.getProperty("STR_TOKEN_QP", "QP");
-    public static final String STR_TIME_PROCESS = FieldSeparatorTokens.props.getProperty("STR_TIME_PROCESS", "TIME_PROCESS");
-    public static final String STR_STATUS_OWNER_PROCESS = FieldSeparatorTokens.props.getProperty("STR_STATUS_OWNER_PROCESS", "STATUS_OWNER_PROCESS");
     public static final String STR_SUBFIELD_PREFIX = "SUBFIELD_";
     public static final String STR_FIELD_PREFIX = "FIELD_";
     public static final String STR_SUFIJO_DESCRIPTIONS = "_DESCRIPTIONS";
@@ -58,7 +48,7 @@ public class Constants {
      */
     public static final String STR_LABEL_NUMBER_REQUESTS = "NUMBER_REQUESTS";
     /**
-     * Constante con el nombre de la propiedad para almacenar la versión de componente
+     * Constante con el nombre de la propiedad para almacenar la versiï¿½n de componente
      */
     public static final String STR_LABEL_VERSION = "VERSION";
     /**
@@ -94,12 +84,27 @@ public class Constants {
      */
     public static final String STR_LABEL_DATETIME_STARTED = "DATETIME_STARTED";
     /**
-     * Constante con el nombre de la propiedad para almacenar la duración del llamado
+     * Constante con el nombre de la propiedad para almacenar la duraciï¿½n del llamado
      */
     public static final String STR_LABEL_ELAPSED_TIME = "ELAPSED_TIME_NANOS";
     /**
-     * Constante con el nombre de la propiedad las últimas solicitudes
+     * Constante con el nombre de la propiedad las ï¿½ltimas solicitudes
      */
     public static final String STR_LABEL_LAST_REQUESTS = "LAST_REQUESTS";
     
+    /**
+     * Constante para el valor de subcampo ficticio cuando no ocurre match en la
+     * expresion para separar campos
+     */
+    public static final String STR_VALUE_FOR_NO_MATCH = "NO_MATCH_ON_REGULAR_EXPRESION RE:[%s] AND VALUE:[%s]";
+    
+    /**
+     * Nombre de subcampo usado para enmarcar un inpedimento para separar un campo
+     */
+    public static final String STR_WARNING_FIELD_EXPRESION = "WARNING_FIELD_EXPRESION";
+
+    /**
+     * Nombre de subcampo usado para enmarcar un inpedimento para separar un campo
+     */
+    public static final String STR_WARNING_REGULAR_EXPRESION_NOT_FOUND = "No existe expresion regular definida para este campo";
 }

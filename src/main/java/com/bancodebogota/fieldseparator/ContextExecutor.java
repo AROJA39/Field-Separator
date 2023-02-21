@@ -2,6 +2,11 @@
  * Clase para ejecutar logica en otros componentes facilitando el manejo de
  * condiciones de error
  *
+ * BANCO DE BOGOTA
+ * VICEPRESIDENCIA DE DESARROLLO
+ * GERENCIA DE DESARROLLO CANALES E INTEGRACION
+ * 
+ * ACTUALIZADO POR:         Juan Miguel Chaves
  * ULTIMA MODIFICACION:     Febrero 1 de 2023
  */
 package com.bancodebogota.fieldseparator;
@@ -14,7 +19,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
- * Esta clase sirve para 
+ * Esta clase sirve para envolver la ejecucion de 
  * @author Juan Miguel Chaves
  */
 public class ContextExecutor {
@@ -65,16 +70,40 @@ public class ContextExecutor {
      * Tiempo de fin de atencion en contador de nanos del sistema
      */
     long nanotimeEnd;
+    /**
+     * Tiempo en el que fue arrancado el servicio ejecutado en el
+     * ContextExecutor
+     */
     Date dTime;
+    /**
+     * Referencia interna a la tarea a ejecutar que puede enviar excepcion
+     */
     RunnableWithThrows code;
+    /**
+     * Variable en la que el Contexto recibe la excepcion que pudo lanzarse
+     * desde el RunnableWithThrows para realizar el manejo de 
+     * respectivo
+     */
     Exception exceptionThrow = null;
+    /**
+     * Estado HTTP por defecto a responder
+     */
     int status =  200;
+    /**
+     * Mensaje de retorno por defecto
+     */
     String message = "OK";
-    
+    /**
+     * Metodo para modificar el estado de terminación del proceso
+     * @param status Estado a establecer
+     */
     public void setStatus(int status) {
         this.status = status;
     }
-
+    /**
+     * Metodo para establecer el mensaje al final del programa
+     * @param message Mensaje del programa al finalizar
+     */
     public void setMessage(String message) {
         this.message = message;
     }
