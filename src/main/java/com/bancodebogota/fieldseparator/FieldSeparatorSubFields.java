@@ -38,6 +38,9 @@ public class FieldSeparatorSubFields {
      * por un determinado tipo de transaccion
      */
     static volatile Map<String, Object> validations;
+    
+    static String strUrlConfigServiceBase;
+    
     /**
      * Metodo de inicializacion del componente, en el que se cargan los
      * archivos de configuracion en memoria del servicio
@@ -48,25 +51,32 @@ public class FieldSeparatorSubFields {
      */
     public static final void initialize(String urlServicioConfiguracion)
             throws IOException {
-        Constants.STR_URL_CONFIG_SERVICE_BASE = urlServicioConfiguracion;
-        URL url = new URL(Constants.STR_URL_CONFIG_SERVICE_BASE + "/get?JSON=SUBCAMPOS");
+        strUrlConfigServiceBase = urlServicioConfiguracion;
+        internalInitialize();
+    }
+    
+    private static final void internalInitialize() throws IOException  {
+      URL url = new URL(strUrlConfigServiceBase + "/get?JSON=SUBCAMPOS");
         HttpURLConnection urlcon = (HttpURLConnection) url.openConnection();
         JSONObject jsonObject = new JSONObject(Utilities.readFullyAsString(urlcon.getInputStream()));
         definitions = (Map<String, Object>) jsonObject.toMap();
-        url = new URL(Constants.STR_URL_CONFIG_SERVICE_BASE + "/get?JSON=VALIDACIONES");
+        url = new URL(strUrlConfigServiceBase + "/get?JSON=VALIDACIONES");
         //url = new URL(URL_EXTERNAL_API + "/json/ValidacionCampos.json");
         urlcon = (HttpURLConnection) url.openConnection();
         jsonObject = new JSONObject(Utilities.readFullyAsString(urlcon.getInputStream()));
         validations = (Map<String, Object>) jsonObject.toMap();
     }
-    /**
-     * Metodo de separacion de campos recibe un Map de entrada con los campos a separar y retorna
-     * en un Map de salida los campos que conforman dicha separacion
-     * @param sourceFields Campos que se quiere separar segun la configuracion
-     * de separacion de campos
-     * @return Campos separados en subcampos como hayan sido encontrados
-     */
-    public static final Map<String,String> discriminate( Map<String, String> sourceFields ) {
+
+  /**
+   * Metodo de separacion de campos recibe un Map de entrada con los campos a separar y retorna en
+   * un Map de salida los campos que conforman dicha separacion
+   *
+   * @param sourceFields Campos que se quiere separar segun la configuracion de separacion de campos
+   * @return Campos separados en subcampos como hayan sido encontrados
+   */
+  public static final Map<String, String> discriminate(Map<String, String> sourceFields)
+      throws IOException {
+        validateConfigurationLoad();
         Map<String,String> results = new TreeMap<>();
         for( String field: sourceFields.keySet() ) {
             if(definitions.containsKey(field)) {
@@ -120,6 +130,12 @@ public class FieldSeparatorSubFields {
             results.put(field + Utilities.getProperty(FieldSeparatorTokens.props, "STR_FIELD_NAME_SEPARATOR", ".") + "DESCRIPTION", ( matcher.matches() ? "TRUE " : "FALSE " ) + subfieldSufix);
         }
         return results;
+    }
+
+  public static final void validateConfigurationLoad() throws IOException {
+      if( validations == null || definitions == null ) {
+        internalInitialize();
+      }
     }
 
 }

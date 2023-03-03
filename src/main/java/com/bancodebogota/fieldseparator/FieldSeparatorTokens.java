@@ -86,10 +86,10 @@ public class FieldSeparatorTokens {
                         String strResto = m1.group(3);
                         if( strValorCompleto.length() != iTamanyo ) {
                             if( F_OPTIMISTIC_OPERATION ) {
-                                strDescripcionOptimista += "Tama�o total [" + iTamanyo + "] expresado en el token errado [" + strResto.length() + "], ";
+                                strDescripcionOptimista += "Tamaño total [" + iTamanyo + "] expresado en el token errado [" + strResto.length() + "], ";
                             }
                             else {
-                                throw new ArrayIndexOutOfBoundsException("Tama�o total [" + iTamanyo + "] expresado en el token errado [" + strResto.length() + "]");
+                                throw new ArrayIndexOutOfBoundsException("Tamaño total [" + iTamanyo + "] expresado en el token errado [" + strResto.length() + "]");
                             }
                         }
                         iNumTokensAdicionales--; // El token principal de encabezado se incluye en esta cuenta, por lo que se descarta para validar
@@ -101,11 +101,17 @@ public class FieldSeparatorTokens {
                         String strRestoToken;
                         for( int i = 0; i < iNumTokensAdicionales || F_OPTIMISTIC_OPERATION; i++ )
                         {
+                            if( strResto == null || strResto.equals(""))
+                              break;
                             Matcher m2 = p2.matcher(strResto);
                             if(m2.matches()) {
                                 String strNombreToken = m2.group(1);
                                 int iTamanyoToken = Integer.parseInt(m2.group(2));
                                 strRestoToken = m2.group(3);
+                                if(iTamanyoToken > strRestoToken.length()) {
+                                  strDescripcionOptimista += "Tamaño del token [" + iTamanyoToken + "] expresado es errado longitud disponible [" + strRestoToken.length() + "], ";
+                                  iTamanyoToken = strRestoToken.length();
+                                }
                                 strResto = strRestoToken.substring(iTamanyoToken);
                                 strRestoToken = strRestoToken.substring(0, iTamanyoToken);
 
@@ -143,7 +149,7 @@ public class FieldSeparatorTokens {
                         Utilities.getProperty(FieldSeparatorTokens.props,"STR_STATUS_PROCESS", "STATUS_PROCESS"), "OK");
                     if( F_OPTIMISTIC_OPERATION ) {
                         hmStructuredData.put(childRoot+
-                            Utilities.getProperty(FieldSeparatorTokens.props,"STR_STATUS_DESCRIPTION", "STATUS_DESCRIPTION"), "Procesamiento con novedad. " + strDescripcionOptimista.substring(0, strDescripcionOptimista.length() - 2 ));
+                            Utilities.getProperty(FieldSeparatorTokens.props,"STR_STATUS_DESCRIPTION", "STATUS_DESCRIPTION"), strDescripcionOptimista.equals ("Mensajes: ") ? "SIN NOVEDAD" : "Procesamiento con novedad. " + strDescripcionOptimista.substring(0, strDescripcionOptimista.length() - 2 ));
                     } else {
                         hmStructuredData.put(childRoot+
                             Utilities.getProperty(FieldSeparatorTokens.props,"STR_STATUS_DESCRIPTION", "STATUS_DESCRIPTION"), "Procesamiento todo OK");  
@@ -170,7 +176,7 @@ public class FieldSeparatorTokens {
     
     /**
      * Esta rutina es especificamente para separar los campos que hay presentes
-     * segun la distribuci�n de cada token
+     * segun la distribucion de cada token
      * @param strNombre
      * @param strValorToken
      * @return Descomposicion de un campo particular

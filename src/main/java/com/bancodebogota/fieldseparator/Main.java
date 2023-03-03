@@ -77,6 +77,13 @@ public class Main {
     } catch (IOException e) {
       e.printStackTrace();
     }
+    try {
+      IdentifyTransactions.initialize(strUrlServicioConfiguracion);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    
     Javalin app = Javalin.create().start(iPuertoEscucha);
     app.get(
             "resync",
@@ -89,6 +96,7 @@ public class Main {
                       () -> {
                         FieldSeparatorSubFields.initialize(strUrlServicioConfiguracion);
                         fieldSeparatorTokensObject.resync();
+                        IdentifyTransactions.initialize(strUrlServicioConfiguracion);
                         System.out.println("RESYNC OK");
                         ctx.result("RESYNC OK");
                       });
@@ -164,11 +172,13 @@ public class Main {
                               "Key = " + entry.getKey() + ", Value = " + entry.getValue());
                         ctx.contentType(ContentType.JSON);
                         // JSONObject obj = new JSONObject(result);
-//                        JSONArray obj = new JSONArray();
-//                        for (Map.Entry<String, String> entry : result.entrySet())
-//                          obj.put(
-//                              new JSONObject(
-//                                  "{ \"" + entry.getKey() + "\" : \"" + entry.getValue() + "\" }"));
+                        //                        JSONArray obj = new JSONArray();
+                        //                        for (Map.Entry<String, String> entry :
+                        // result.entrySet())
+                        //                          obj.put(
+                        //                              new JSONObject(
+                        //                                  "{ \"" + entry.getKey() + "\" : \"" +
+                        // entry.getValue() + "\" }"));
                         JSONObject obj = Utilities.printJSONObject(result);
                         ctx.result(obj.toString());
                       });
@@ -238,7 +248,31 @@ public class Main {
                             acceptanceCriteriaObject.acceptanceCriteria(requestParams);
 
                         ctx.contentType(ContentType.JSON);
-                        //JSONObject obj = new JSONObject(response);
+                        // JSONObject obj = new JSONObject(response);
+                        JSONObject obj = Utilities.printJSONObject(response);
+                        ctx.result(obj.toString());
+                      });
+              ce.RunToEnd();
+              managePosibleException(ce, ctx);
+            })
+        .get(
+            "identifytransactions",
+            (Context ctx) -> {
+              ContextExecutor ce =
+                  new ContextExecutor(
+                      "IDENTIFY_TRANSACTION",
+                      "HTTP://localhost:8901/identifytransactions",
+                      "1.0.0",
+                      () -> {
+                        Map<String, List<String>> params = ctx.queryParamMap();
+                        Map<String, String> requestParams = new HashMap<>();
+                        params.forEach((key, value) -> requestParams.put(key, value.get(0)));
+
+                        Map<String, String> response =
+                            IdentifyTransactions.identifyTransaction(requestParams);
+
+                        ctx.contentType(ContentType.JSON);
+                        // JSONObject obj = new JSONObject(response);
                         JSONObject obj = Utilities.printJSONObject(response);
                         ctx.result(obj.toString());
                       });

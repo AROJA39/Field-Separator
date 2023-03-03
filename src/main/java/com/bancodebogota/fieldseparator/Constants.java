@@ -19,7 +19,7 @@ public class Constants {
      * URL base de publicacion de servicios, donde se puede acceder a las
      * funcionalidades
      */
-    static String STR_URL_CONFIG_SERVICE_BASE = "http://localhost:8085";
+    public static final String STR_URL_CONFIG_SERVICE_BASE = "http://localhost:8085";
     public static final String STR_SUBFIELD_PREFIX = "SUBFIELD_";
     public static final String STR_FIELD_PREFIX = "FIELD_";
     public static final String STR_SUFIJO_DESCRIPTIONS = "_DESCRIPTIONS";
